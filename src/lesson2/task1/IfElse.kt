@@ -4,6 +4,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -88,10 +89,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = t3 * v3
     val s = s1 + s2 + s3
     val sh = s / 2
-    if (s1 < sh) {
+    return if (s1 < sh) {
         val sh1 = sh - s1
-        if (sh1 < s2) return (t1 + sh1 / v2) else return (t1 + t2 + (sh1 - s2) / v3)
-    } else return sh / v1
+        if (sh1 < s2) (t1 + sh1 / v2) else (t1 + t2 + (sh1 - s2) / v3)
+    } else sh / v1
 }
 
 /**
@@ -126,9 +127,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int =
         when {
-            ((kingX == rookX) || (kingY == rookY)) && (max(kingX, bishopX) - min(kingX, bishopX)) == (max(kingY, bishopY) - min(kingY, bishopY)) -> 3
+            ((kingX == rookX) || (kingY == rookY)) && (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 3
             (kingX == rookX) || (kingY == rookY) -> 1
-            (max(kingX, bishopX) - min(kingX, bishopX)) == (max(kingY, bishopY) - min(kingY, bishopY)) -> 2
+            (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 2
             else -> 0
         }
 
