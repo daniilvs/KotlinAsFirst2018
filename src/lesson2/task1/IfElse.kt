@@ -143,18 +143,18 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int =
         when {
-            (a > b) && (a > c) && ((b + c) < a) -> -1
-            (b > c) && (b > a) && ((a + c) < b) -> -1
-            (c > a) && (c > b) && ((a + b) < c) -> -1
-            (a > b) && (a > c) && ((sqr(c) + sqr(b)) < sqr(a)) -> 2
-            (b > c) && (b > a) && ((sqr(a) + sqr(c)) < sqr(b)) -> 2
-            (c > a) && (c > b) && ((sqr(a) + sqr(b)) < sqr(c)) -> 2
-            (a > b) && (a > c) && ((sqr(c) + sqr(b)) > sqr(a)) -> 0
-            (b > c) && (b > a) && ((sqr(a) + sqr(c)) > sqr(b)) -> 0
-            (c > a) && (c > b) && ((sqr(a) + sqr(b)) > sqr(c)) -> 0
-            (a > b) && (a > c) && ((sqr(c) + sqr(b)) == sqr(a)) -> 1
-            (b > c) && (b > a) && ((sqr(a) + sqr(c)) == sqr(b)) -> 1
-            (c > a) && (c > b) && ((sqr(a) + sqr(b)) == sqr(c)) -> 1
+            ((b + c) < a) ||
+                    ((a + c) < b) ||
+                    ((a + b) < c) -> -1
+            ((sqr(c) + sqr(b)) == sqr(a)) ||
+                    ((sqr(a) + sqr(c)) == sqr(b)) ||
+                    ((sqr(a) + sqr(b)) == sqr(c)) -> 1
+            ((sqr(c) + sqr(b)) < sqr(a)) ||
+                    ((sqr(a) + sqr(c)) < sqr(b)) ||
+                    ((sqr(a) + sqr(b)) < sqr(c)) -> 2
+            ((sqr(c) + sqr(b)) > sqr(a)) ||
+                    ((sqr(a) + sqr(c)) > sqr(b)) ||
+                    ((sqr(a) + sqr(b)) > sqr(c)) -> 0
             else -> 0
         }
 
@@ -168,11 +168,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int =
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
         when {
-            (a > c) and (d > b) -> b - a
-            (b > d) and (c > a) -> d - c
-            (b > d) and (a < d) -> d - a
-            (b < d) and (c < b) -> b - c
-            (b > d) and (a == d) -> 0
-            (b < d) and (b == c) -> 0
+            (a >= c) and (d >= b) -> b - a
+            (b >= d) and (c >= a) -> d - c
+            (b >= d) and (a <= d) -> d - a
+            (b <= d) and (c <= b) -> b - c
+            (b >= d) and (a == d) -> 0
+            (b <= d) and (b == c) -> 0
             else -> -1
         }

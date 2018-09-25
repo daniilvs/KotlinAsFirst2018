@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 
+import java.lang.Math.pow
 import kotlin.math.*
 
 /**
@@ -67,7 +68,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = sagenes * 48 * 4.445 / 100 + arshins * 16 * 4.445 / 100 + vershoks * 4.445 / 100
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        (sagenes * 48 * 4.445 / 100) + (arshins * 16 * 4.445 / 100) + (vershoks * 4.445 / 100)
 
 /**
  * Тривиальная
@@ -75,7 +77,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = sagenes 
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad * PI / 180 + min * PI / 180 / 60 + sec * PI / 3600 / 180)
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
+        grad * PI / 180 + min * PI / 180 / 60 + sec * PI / 3600 / 180
 
 /**
  * Тривиальная
@@ -109,7 +112,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = initial * (1.0 + percent / 100.0) * (1.0 + percent / 100.0) * (1.0 + percent / 100.0)
+fun accountInThreeYears(initial: Int, percent: Int): Double = initial * pow(1.0 + percent / 100.0, 3.0)
 
 /**
  * Простая
