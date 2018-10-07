@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.Math.*
+import kotlin.math.max
 import kotlin.math.sqrt
 
 /**
@@ -86,7 +88,16 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = fib(n + 2) - fib(n + 1)
+fun fib(n: Int): Int {
+    var a = 0
+    var b = 1
+    for (i in 1..n) {
+        val c = a + b
+        a = b
+        b = c
+    }
+    return a
+}
 
 /**
  * Простая
@@ -94,21 +105,43 @@ fun fib(n: Int): Int = fib(n + 2) - fib(n + 1)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+    if (m <= n) while (a % b != 0) {
+        a += m
+    }
+    else while (b % a != 0) {
+        b += n
+    }
+    return if (m > n) b else a
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var d = 2
+    while (n % d != 0) {
+        d += 1
+    }
+    return d
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var m = (n - 1)
+    while (n % m != 0) {
+        m -= 1
+    }
+    return m
+}
 
 /**
  * Простая
@@ -117,7 +150,17 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var a = m
+    var b = n
+    while (a != b) {
+        if (a > b) a -= b else b -= a
+    }
+    return if (a == 1) true
+    else {
+        return false
+    }
+}
 
 /**
  * Простая
@@ -126,7 +169,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val r = sqrt(n.toDouble())
+    val s = kotlin.math.floor(r)
+    return (s >= sqrt(m.toDouble()))
+}
 
 /**
  * Средняя
@@ -144,7 +191,16 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var k = 0
+    var a = x
+    while (a != 1) {
+        if (a % 2 == 0) a /= 2
+        else a = 3 * a + 1
+        k += 1
+    }
+    return k
+}
 
 /**
  * Средняя
@@ -153,7 +209,24 @@ fun collatzSteps(x: Int): Int = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var sin = 0.0
+    var b = x % (2 * PI)
+    var k = 1
+    var i = 1
+    var a = pow(b, k.toDouble()) / factorial(k)
+    while (abs(a) >= eps) {
+        if (i % 2 != 0) {
+            sin += a
+        } else {
+            a *= -1
+            sin += a
+        }
+        k += 2
+        i++
+    }
+    return sin
+}
 
 /**
  * Средняя
@@ -171,7 +244,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var revert = 0
+    while (number > 0) {
+        revert = revert * 10 + number % 10
+        number /= 10
+    }
+    return revert
+}
 
 /**
  * Средняя
@@ -182,36 +263,55 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var dig = 1 / 10
+    var num = n
+    var ans = n
+    var div = 10
+    while (n > 0) {
+        num /= 10
+        dig *= 10
+    }
+    while (ans > 0) {
+        if (ans / dig == ans % div) {
+            ans %= dig
+            dig /= 10
+            div *= 10
+            continue
+        } else {
+            return false
+        }
+        return true
+    }
 
-/**
- * Средняя
- *
- * Для заданного числа n определить, содержит ли оно различающиеся цифры.
- * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+    /**
+     * Средняя
+     *
+     * Для заданного числа n определить, содержит ли оно различающиеся цифры.
+     * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
+     *
+     * Использовать операции со строками в этой задаче запрещается.
+     */
+    fun hasDifferentDigits(n: Int): Boolean = TODO()
 
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
- * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun squareSequenceDigit(n: Int): Int = TODO()
+    /**
+     * Сложная
+     *
+     * Найти n-ю цифру последовательности из квадратов целых чисел:
+     * 149162536496481100121144...
+     * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+     *
+     * Использовать операции со строками в этой задаче запрещается.
+     */
+    fun squareSequenceDigit(n: Int): Int = TODO()
 
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
- * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun fibSequenceDigit(n: Int): Int = TODO()
+    /**
+     * Сложная
+     *
+     * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
+     * 1123581321345589144...
+     * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
+     *
+     * Использовать операции со строками в этой задаче запрещается.
+     */
+    fun fibSequenceDigit(n: Int): Int = TODO()
