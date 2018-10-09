@@ -2,8 +2,8 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import java.lang.Math.*
-import kotlin.math.max
 import kotlin.math.sqrt
 
 /**
@@ -210,22 +210,18 @@ fun collatzSteps(x: Int): Int {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var sin = 0.0
-    var b = x % (2 * PI)
-    var k = 1
-    var i = 1
-    var a = pow(b, k.toDouble()) / factorial(k)
-    while (abs(a) >= eps) {
-        if (i % 2 != 0) {
-            sin += a
-        } else {
-            a *= -1
-            sin += a
-        }
-        k += 2
-        i++
+    val a = x % (2 * PI)
+    var b = a
+    var c = a
+    var i = 1.0
+    while (true) {
+        c = -c * sqr(a) / (i + 1) / (i + 2)
+        if (abs(c) < eps)
+            break
+        b += c
+        i += 2
     }
-    return sin
+    return b
 }
 
 /**
@@ -235,7 +231,21 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    val a = x % (2 * PI)
+    var b = 1.0
+    var c = 1.0
+    var i = 0
+    while (true) {
+        c = -c * sqr(a) / (i + 1) / (i + 2)
+        if (abs(c) < eps)
+            break
+        b += c
+        i += 2
+    }
+    return b
+}
+
 
 /**
  * Средняя
@@ -263,55 +273,64 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    var dig = 1 / 10
-    var num = n
-    var ans = n
-    var div = 10
-    while (n > 0) {
-        num /= 10
-        dig *= 10
+fun isPalindrome(n: Int): Boolean = n == revert(n)
+
+/**
+ * Средняя
+ *
+ * Для заданного числа n определить, содержит ли оно различающиеся цифры.
+ * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
+ *
+ * Использовать операции со строками в этой задаче запрещается.
+ */
+fun hasDifferentDigits(n: Int): Boolean {
+    var a = n / 10
+    val b = n % 10
+    while (a > 0) {
+        if (a % 10 != b) return true
+        a /= 10
     }
-    while (ans > 0) {
-        if (ans / dig == ans % div) {
-            ans %= dig
-            dig /= 10
-            div *= 10
-            continue
-        } else {
-            return false
-        }
-        return true
+    return false
+}
+
+/**
+ * Сложная
+ *
+ * Найти n-ю цифру последовательности из квадратов целых чисел:
+ * 149162536496481100121144...
+ * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ *
+ * Использовать операции со строками в этой задаче запрещается.
+ */
+fun squareSequenceDigit(n: Int): Int {
+    var k = 0
+    var num = 0
+    while (num < n) {
+        k += 1
+        num += digitNumber(sqr(k))
     }
+    var a = 1
+    for (i in 1..num - n) a *= 10
+    return sqr(k) / a % 10
+}
 
-    /**
-     * Средняя
-     *
-     * Для заданного числа n определить, содержит ли оно различающиеся цифры.
-     * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
-     *
-     * Использовать операции со строками в этой задаче запрещается.
-     */
-    fun hasDifferentDigits(n: Int): Boolean = TODO()
-
-    /**
-     * Сложная
-     *
-     * Найти n-ю цифру последовательности из квадратов целых чисел:
-     * 149162536496481100121144...
-     * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
-     *
-     * Использовать операции со строками в этой задаче запрещается.
-     */
-    fun squareSequenceDigit(n: Int): Int = TODO()
-
-    /**
-     * Сложная
-     *
-     * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
-     * 1123581321345589144...
-     * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
-     *
-     * Использовать операции со строками в этой задаче запрещается.
-     */
-    fun fibSequenceDigit(n: Int): Int = TODO()
+/**
+ * Сложная
+ *
+ * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
+ * 1123581321345589144...
+ * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
+ *
+ * Использовать операции со строками в этой задаче запрещается.
+ */
+fun fibSequenceDigit(n: Int): Int {
+    var k = 0
+    var num = 0
+    while (num < n) {
+        k += 1
+        num += digitNumber(fib(k))
+    }
+    var a = 1
+    for (i in 1..num - n) a *= 10
+    return fib(k) / a % 10
+}
