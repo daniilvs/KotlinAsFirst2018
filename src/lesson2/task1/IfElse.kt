@@ -152,9 +152,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int =
             ((sqr(c) + sqr(b)) < sqr(a)) ||
                     ((sqr(a) + sqr(c)) < sqr(b)) ||
                     ((sqr(a) + sqr(b)) < sqr(c)) -> 2
-            ((sqr(c) + sqr(b)) > sqr(a)) ||
-                    ((sqr(a) + sqr(c)) > sqr(b)) ||
-                    ((sqr(a) + sqr(b)) > sqr(c)) -> 0
             else -> 0
         }
 
@@ -172,7 +169,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
             (b >= d) and (c >= a) -> d - c
             (b >= d) and (a <= d) -> d - a
             (b <= d) and (c <= b) -> b - c
-            (b >= d) and (a == d) -> 0
-            (b <= d) and (b == c) -> 0
+            (a == d) -> 0
+            (b == c) -> 0
             else -> -1
         }
