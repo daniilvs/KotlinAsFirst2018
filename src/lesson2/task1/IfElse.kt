@@ -141,19 +141,22 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int =
-        when {
-            ((b + c) < a) ||
-                    ((a + c) < b) ||
-                    ((a + b) < c) -> -1
-            ((sqr(c) + sqr(b)) == sqr(a)) ||
-                    ((sqr(a) + sqr(c)) == sqr(b)) ||
-                    ((sqr(a) + sqr(b)) == sqr(c)) -> 1
-            ((sqr(c) + sqr(b)) < sqr(a)) ||
-                    ((sqr(a) + sqr(c)) < sqr(b)) ||
-                    ((sqr(a) + sqr(b)) < sqr(c)) -> 2
-            else -> 0
-        }
+
+fun midOf(a: Double, b: Double, c: Double): Double {
+    val s = a + b + c
+    return s - minOf(a, b, c) - maxOf(a, b, c)
+}
+
+
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    return when {
+        maxOf(a, b, c) >= minOf(a, b, c) + midOf(a, b, c) -> -1
+        sqr(maxOf(a, b, c)) > sqr(minOf(a, b, c)) + sqr(midOf(a, b, c)) -> 2
+        sqr(maxOf(a, b, c)) < sqr(minOf(a, b, c)) + sqr(midOf(a, b, c)) -> 0
+        else -> 1
+    }
+}
+
 
 /**
  * Средняя
@@ -163,13 +166,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int =
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
-        when {
-            (a >= c) and (d >= b) -> b - a
-            (b >= d) and (c >= a) -> d - c
-            (b >= d) and (a <= d) -> d - a
-            (b <= d) and (c <= b) -> b - c
-            (a == d) -> 0
-            (b == c) -> 0
-            else -> -1
-        }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val x = maxOf(a, c)
+    val y = minOf(b, d)
+    return when {
+        x <= d -> y - x
+        else -> -1
+    }
+}
