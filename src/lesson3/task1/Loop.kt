@@ -79,7 +79,7 @@ fun digitNumber(n: Int): Int {
             h /= 10
             k += 1
         }
-        return k
+        k
     }
 }
 
@@ -135,7 +135,6 @@ fun minDivisor(n: Int): Int {
         }
         return d
     }
-
 }
 
 /**
