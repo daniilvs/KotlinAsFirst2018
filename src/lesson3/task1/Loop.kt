@@ -330,15 +330,3 @@ fun addForSequenceDigit(n: Int, s: Int): Int {
     for (i in 1..num - n) a *= 10
     return x / a % 10
 }
-
-fun dfibSequenceDigit(n: Int): Int {
-    var k = 0
-    var num = 0
-    while (num < n) {
-        k += 1
-        num += digitNumber(fib(k))
-    }
-    var a = 1
-    for (i in 1..num - n) a *= 10
-    return fib(k) / a % 10
-}
