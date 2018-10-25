@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import lesson1.task1.numberRevert
 import lesson1.task1.sqr
 import java.lang.Math.*
 import kotlin.math.sqrt
@@ -227,6 +226,7 @@ fun add(a: Double, b: Double, c: Double, i: Double, eps: Double): Double {
     }
     return b1
 }
+
 /**
  * Средняя
  *
@@ -299,17 +299,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 
-fun squareSequenceDigit(n: Int): Int {
-    var k = 0
-    var num = 0
-    while (num < n) {
-        k += 1
-        num += digitNumber(sqr(k))
-    }
-    var a = 1
-    for (i in 1..num - n) a *= 10
-    return sqr(k) / a % 10
-}
+fun squareSequenceDigit(n: Int): Int = addForSequenceDigit(n, 2)
 
 
 /**
@@ -321,7 +311,27 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
+fun fibSequenceDigit(n: Int): Int = addForSequenceDigit(n, 1)
+
+
+fun addForSequenceDigit(n: Int, s: Int): Int {
+    var num = 0
+    var k = 0
+    val x = if (s == 1) {
+        fib(k)
+    } else {
+        sqr(k)
+    }
+    while (num < n) {
+        k += 1
+        num += digitNumber(x)
+    }
+    var a = 1
+    for (i in 1..num - n) a *= 10
+    return x / a % 10
+}
+
+fun dfibSequenceDigit(n: Int): Int {
     var k = 0
     var num = 0
     while (num < n) {
