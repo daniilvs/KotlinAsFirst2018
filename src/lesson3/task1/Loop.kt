@@ -299,7 +299,12 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 
-fun squareSequenceDigit(n: Int): Int = addForSequenceDigit(n, 2)
+fun squareSequenceDigit(n: Int): Int {
+    return if (n == 1)
+        1
+    else
+        addForSequenceDigit(n, 2)
+}
 
 
 /**
@@ -313,20 +318,22 @@ fun squareSequenceDigit(n: Int): Int = addForSequenceDigit(n, 2)
  */
 fun fibSequenceDigit(n: Int): Int = addForSequenceDigit(n, 1)
 
-
 fun addForSequenceDigit(n: Int, s: Int): Int {
     var num = 0
     var k = 0
-    val x = if (s == 1) {
-        fib(k)
-    } else {
-        sqr(k)
-    }
     while (num < n) {
         k += 1
+        val x = if (s == 1)
+            fib(k)
+        else
+            sqr(k)
         num += digitNumber(x)
     }
     var a = 1
     for (i in 1..num - n) a *= 10
+    val x = if (s == 1)
+        fib(k)
+    else
+        sqr(k)
     return x / a % 10
 }
