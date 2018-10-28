@@ -6,6 +6,7 @@ import lesson1.task1.discriminant
 import lesson3.task1.isPrime
 import lesson3.task1.minDivisor
 import java.lang.Math.pow
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 /**
@@ -125,6 +126,7 @@ fun abs(v: List<Double>): Double {
     }
     return sqrt(abs)
 }
+
 /**
  * Простая
  *
@@ -164,9 +166,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
     for (i in 0 until a.size) {
-        for (j in 0 until b.size) {
-            c += a[i] * b[j]
-        }
+        c += a[i] * b[i]
     }
     return c
 }
@@ -199,11 +199,16 @@ fun polynom(p: List<Double>, x: Double): Double {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
+
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for (i in list.size until 0) {
-        for (j in i - 1 until 0) list[i] += list[j]
+    return if (list.isEmpty()) list
+    else {
+        for (i in list.size until 1) {
+            val sub = list.subList(0, i)
+            list[i] = sub.sum()
+        }
+        list
     }
-    return list
 }
 
 /**
@@ -231,7 +236,15 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var nvar = n
+    while (n >= 1) {
+        list.add(0, nvar % base)
+        nvar /= base
+    }
+    return list
+}
 
 /**
  * Сложная
@@ -241,7 +254,13 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val abc = "abcdefghijklmnopqrstuvwxyz"
+    var list = convert(n, base)
+    for (element in list) {
+        if (element < 10)
+    }
+}
 
 /**
  * Средняя
