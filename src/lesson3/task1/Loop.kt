@@ -303,7 +303,7 @@ fun squareSequenceDigit(n: Int): Int {
     return if (n == 1)
         1
     else
-        addForSequenceDigit(n, 2)
+        addForSequenceDigit(n, false)
 }
 
 
@@ -316,14 +316,14 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = addForSequenceDigit(n, 1)
+fun fibSequenceDigit(n: Int): Int = addForSequenceDigit(n, true)
 
-fun addForSequenceDigit(n: Int, s: Int): Int {
+fun addForSequenceDigit(n: Int, s: Boolean): Int {
     var num = 0
     var k = 0
     while (num < n) {
         k += 1
-        val x = if (s == 1)
+        val x = if (s)
             fib(k)
         else
             sqr(k)
@@ -331,7 +331,7 @@ fun addForSequenceDigit(n: Int, s: Int): Int {
     }
     var a = 1
     for (i in 1..num - n) a *= 10
-    val x = if (s == 1)
+    val x = if (s)
         fib(k)
     else
         sqr(k)
