@@ -148,8 +148,14 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean =
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     var ans = mutableMapOf<String, Double>()
-    stockPrices.toMap().entries.map { }
-    return ans // isn't finished
+    val repeats = mutableMapOf<String, List<Double>>()
+    for ((name, sum) in stockPrices)
+        repeats[name] = repeats.getOrDefault(name, listOf()) + sum
+    for ((name, price) in repeats) {
+        val average = price.sum() / price.size
+        ans[name] = average
+    }
+    return ans
 }
 
 /**
@@ -247,7 +253,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> =
+        list.groupingBy { it }.eachCount().filter { (_, count) -> count != 1 }
 
 /**
  * Средняя
