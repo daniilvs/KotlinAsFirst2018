@@ -123,18 +123,18 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int {
-    return if (isPrime(n))
-        n
-    else {
-        val s = sqrt(n.toDouble())
-        var d = 2
-        while ((n % d != 0) && (d <= s)) {
-            d++
+fun minDivisor(n: Int): Int =
+        if (isPrime(n))
+            n
+        else {
+            val s = sqrt(n.toDouble())
+            var d = 2
+            while ((n % d != 0) && (d <= s)) {
+                d++
+            }
+            d
         }
-        return d
-    }
-}
+
 
 /**
  * Простая

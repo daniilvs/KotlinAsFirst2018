@@ -3,11 +3,9 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.isPrime
 import lesson3.task1.minDivisor
 import java.lang.Math.pow
 import java.lang.StringBuilder
-import kotlin.math.abs
 import kotlin.math.sqrt
 
 /**
@@ -133,12 +131,11 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    return if (list.isEmpty()) 0.0
-    else {
-        list.sum() / list.size
-    }
-}
+fun mean(list: List<Double>): Double =
+        if (list.isEmpty()) 0.0
+        else {
+            list.sum() / list.size
+        }
 
 
 /**
@@ -150,7 +147,7 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val s = list.sum() / list.size
+    val s = mean(list)
     for (i in 0 until list.size) {
         list[i] -= s
     }
@@ -201,15 +198,11 @@ fun polynom(p: List<Double>, x: Double): Double {
 
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var k = 0.0
-    return if (list.isEmpty())
-        list
-    else {
-        for (i in 0 until list.size) {
-            k += list[i]
-            list[i] = k
-        }
-        list
+    for (i in 0 until list.size) {
+        k += list[i]
+        list[i] = k
     }
+    return list
 }
 
 /**
@@ -220,7 +213,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var ans = mutableListOf<Int>()
+    val ans = mutableListOf<Int>()
     var num = n
     do {
         ans.add(minDivisor(num))
@@ -247,12 +240,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     val list = mutableListOf<Int>()
-    var nvar = n
-    while (nvar >= 1) {
-        list.add(0, nvar % base)
-        nvar /= base
+    return if (n == 0) listOf(0)
+    else {
+        var nvar = n
+        while (nvar >= 1) {
+            list.add(nvar % base)
+            nvar /= base
+        }
+        list.asReversed()
     }
-    return list
 }
 
 /**
@@ -265,14 +261,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 
 fun convertToString(n: Int, base: Int): String {
-    val alphabet = "abcdefghijklmnopqrstuvwxyz"
-    var helper = convert(n, base)
+    val helper = convert(n, base)
     val ans = StringBuilder()
-    for (element in helper) {
-        if (element < 10)
-            ans.append(element.toString())
+    helper.forEach {
+        if (it < 10)
+            ans.append(it.toString())
         else
-            ans.append(alphabet[element - 10].toString())
+            ans.append((it + 87).toChar())
     }
     return ans.toString()
 }
@@ -304,7 +299,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var list = str.toList()
+    val list = str.toList()
     return decimal(list.map {
         if (it in '0'..'9')
             it.toInt() - '0'.toInt()
@@ -329,11 +324,11 @@ fun roman(n: Int): String {
     if (n > 1000)
         for (i in 1..(n / 1000))
             ans.append(rom[12])
-    var m = n % 1000
-    while (m > 0) {
+    var a = n % 1000
+    while (a > 0) {
         for (i in 0 until arab.size) {
-            if (m < arab[i]) {
-                m -= arab[i - 1]
+            if (a < arab[i]) {
+                a -= arab[i - 1]
                 ans.append(rom[i - 1])
                 break
             }
@@ -349,17 +344,24 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+/**
 fun russian(n: Int): String {
-    val digits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val toTwenty = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
-            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val decades = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
-            "восемьдесят", "девяносто")
-    val hundred = listOf("сто", "двести",
-            "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val thousands = listOf<String>("одна тысяча", "две тысячи", "три тысячи", "четыре тысячи",
-            "пять тысяч", "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч")
-    var ans = StringBuilder()
-    return ans.toString() // isn't finished
+val digits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val toTwenty = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+"шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+val decades = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
+"восемьдесят", "девяносто")
+val hundred = listOf("сто", "двести",
+"триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+val thousands = listOf("одна тысяча", "две тысячи", "три тысячи", "четыре тысячи",
+"пять тысяч", "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч")
+var ans = StringBuilder()
+
+
 }
 
+ */
+
+fun main(args: Array<String>) {
+    println('z'.toInt().toChar())
+}

@@ -95,14 +95,12 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    var ans = mutableMapOf<String, String>()
+    val ans = mutableMapOf<String, String>()
     for ((name, number) in mapA)
         ans[name] = number
     for ((name, number) in mapB)
         if (name in ans) {
-            if (ans[name] == number)
-                ans[name] = number
-            else
+            if (ans[name] != number)
                 ans[name] = ans[name] + ", $number"
         } else
             ans[name] = number
@@ -147,7 +145,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean =
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    var ans = mutableMapOf<String, Double>()
+    val ans = mutableMapOf<String, Double>()
     val repeats = mutableMapOf<String, List<Double>>()
     for ((name, sum) in stockPrices)
         repeats[name] = repeats.getOrDefault(name, listOf()) + sum
