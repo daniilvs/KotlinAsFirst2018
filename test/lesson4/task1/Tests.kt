@@ -221,7 +221,8 @@ class Tests {
         assertEquals("DCXCIV", roman(694))
         assertEquals("XLIX", roman(49))
     }
-
+}
+/**
     @Test
     @Tag("Impossible")
     fun russian() {
@@ -234,3 +235,4 @@ class Tests {
         assertEquals("двенадцать", russian(12))
     }
 }
+ */

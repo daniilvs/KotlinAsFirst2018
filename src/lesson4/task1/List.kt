@@ -263,11 +263,12 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val helper = convert(n, base)
     val ans = StringBuilder()
+    val const = 'W'.toInt()
     helper.forEach {
         if (it < 10)
             ans.append(it.toString())
         else
-            ans.append((it + 87).toChar())
+            ans.append((it + const).toChar())
     }
     return ans.toString()
 }
@@ -363,5 +364,5 @@ var ans = StringBuilder()
  */
 
 fun main(args: Array<String>) {
-    println('z'.toInt().toChar())
+    println('W'.toInt())
 }
