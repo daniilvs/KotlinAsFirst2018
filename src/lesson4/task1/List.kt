@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import lesson3.task1.minDivisor
 import java.lang.Math.pow
 import java.lang.StringBuilder
@@ -215,10 +216,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val ans = mutableListOf<Int>()
     var num = n
-    do {
-        ans.add(minDivisor(num))
-        num /= minDivisor(num)
-    } while (num > 1)
+    var d = 2
+    if (isPrime(n))
+        ans.add(n)
+    else {
+        do {
+            val s = sqrt(n.toDouble())
+            while ((num % d != 0) && (d <= s)) {
+                d++
+            }
+            ans.add(d)
+            num /= d
+        } while (num > 1)
+    }
     return ans.sorted()
 }
 
@@ -345,24 +355,32 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-/**
+
 fun russian(n: Int): String {
-val digits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-val toTwenty = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
-"шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-val decades = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
-"восемьдесят", "девяносто")
-val hundred = listOf("сто", "двести",
-"триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-val thousands = listOf("одна тысяча", "две тысячи", "три тысячи", "четыре тысячи",
-"пять тысяч", "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч")
-var ans = StringBuilder()
-
-
+    val toTwenty = listOf(" десять ", " одиннадцать ", " двенадцать ", " тринадцать ", " четырнадцать ", " пятнадцать ",
+            " шестнадцать ", " семнадцать ", " восемнадцать ", " девятнадцать ")
+    val digits = listOf(" один ", " два ", " три ", " четыре ", " пять ", " шесть ", " семь ", " восемь ", " девять ")
+    val decades = listOf(" двадцать ", " тридцать ", " сорок ", " пятьдесят ", " шестьдесят ", " семьдесят ",
+            " восемьдесят ", " девяносто ")
+    val hundreds = listOf(" сто ", " двести ",
+            " триста ", " четыреста ", " пятьсот ", " шестьсот", " семьсот ", " восемьсот ", " девятьсот ")
+    val thousands = listOf(" одна тысяча ", " две тысячи ", " три тысячи ", " четыре тысячи ",
+            " пять тысяч ", " шесть тысяч ", " семь тысяч ", " восемь тысяч ", " девять тысяч ")
+    val listOfClasses = listOf(digits, decades, hundreds, thousands)
+    var ans = mutableListOf<String>()
+    var num = n
+    val length = n.toString().length
+    val index = num % 10 - 1
+    for (i in 0..length) {
+        val list = listOfClasses[i]
+        if (num % 100 >= 10) {
+            val toTwen = num % 100 - 10
+            ans.add(toTwenty[toTwen])
+        } else
+            ans.add(list[index])
+        num /= 10
+    }
+    return ans.reversed().toString().trim()
 }
 
- */
 
-fun main(args: Array<String>) {
-    println('W'.toInt())
-}
