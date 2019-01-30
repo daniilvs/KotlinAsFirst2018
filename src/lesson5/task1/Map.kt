@@ -119,7 +119,10 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  */
 
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> =
-        grades.entries.map { it.key }.groupBy { grades[it]!! }
+        grades
+                .map { it.key }
+                .groupBy { grades[it]!! }
+                .mapValues { (_, names) -> names.sortedDescending() }
 
 /**
  * Простая
@@ -237,7 +240,12 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean =
-        chars.map { it.toLowerCase() }.containsAll(word.toLowerCase().toMutableList().distinct())
+        chars
+                .map { it.toLowerCase() }
+                .containsAll(word
+                        .toLowerCase()
+                        .toMutableList()
+                        .distinct())
 /**
  * Средняя
  *

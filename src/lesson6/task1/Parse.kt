@@ -123,7 +123,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String =
         if (phone.filter { it != ' ' && it != '-' }.matches(Regex("""((\+\d*)?)((\(\d+\))?)(\d*)""")))
-            Regex("""-| |\(|\)""").replace(phone, "")
+            Regex("""[- ()]""").replace(phone, "")
         else
             ""
 
@@ -141,7 +141,7 @@ fun flattenPhoneNumber(phone: String): String =
 fun bestLongJump(jumps: String): Int {
     var ans = -1
     jumps.split(' ').forEach {
-        if (!it.matches(Regex("""\d+||[-%]""")))
+        if (!it.matches(Regex("""\d+|[-%]""")))
             return -1
         val int = it.toIntOrNull()
         if (int != null)
@@ -197,7 +197,6 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String = TODO()
-
 /**
  * Сложная
  *

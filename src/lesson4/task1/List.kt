@@ -221,7 +221,7 @@ fun factorize(n: Int): List<Int> {
         ans.add(n)
     else {
         do {
-            val s = sqrt(n.toDouble())
+            val s = sqrt(n.toDouble()) // num
             while ((num % d != 0) && (d <= s)) {
                 d++
             }
@@ -273,12 +273,12 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val helper = convert(n, base)
     val ans = StringBuilder()
-    val const = 'W'.toInt()
+    val wordCode = 'W'.toInt()
     helper.forEach {
         if (it < 10)
             ans.append(it.toString())
         else
-            ans.append((it + const).toChar())
+            ans.append((it + wordCode).toChar())
     }
     return ans.toString()
 }
@@ -334,13 +334,14 @@ fun roman(n: Int): String {
     val ans = StringBuilder()
     if (n > 1000)
         for (i in 1..(n / 1000))
-            ans.append(rom[12])
+            ans.append('M')
     var a = n % 1000
     while (a > 0) {
         for (i in 0 until arab.size) {
             if (a < arab[i]) {
                 a -= arab[i - 1]
                 ans.append(rom[i - 1])
+
                 break
             }
         }
@@ -356,31 +357,9 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 
-fun russian(n: Int): String {
-    val toTwenty = listOf(" десять ", " одиннадцать ", " двенадцать ", " тринадцать ", " четырнадцать ", " пятнадцать ",
-            " шестнадцать ", " семнадцать ", " восемнадцать ", " девятнадцать ")
-    val digits = listOf(" один ", " два ", " три ", " четыре ", " пять ", " шесть ", " семь ", " восемь ", " девять ")
-    val decades = listOf(" двадцать ", " тридцать ", " сорок ", " пятьдесят ", " шестьдесят ", " семьдесят ",
-            " восемьдесят ", " девяносто ")
-    val hundreds = listOf(" сто ", " двести ",
-            " триста ", " четыреста ", " пятьсот ", " шестьсот", " семьсот ", " восемьсот ", " девятьсот ")
-    val thousands = listOf(" одна тысяча ", " две тысячи ", " три тысячи ", " четыре тысячи ",
-            " пять тысяч ", " шесть тысяч ", " семь тысяч ", " восемь тысяч ", " девять тысяч ")
-    val listOfClasses = listOf(digits, decades, hundreds, thousands)
-    var ans = mutableListOf<String>()
-    var num = n
-    val length = n.toString().length
-    val index = num % 10 - 1
-    for (i in 0..length) {
-        val list = listOfClasses[i]
-        if (num % 100 >= 10) {
-            val toTwen = num % 100 - 10
-            ans.add(toTwenty[toTwen])
-        } else
-            ans.add(list[index])
-        num /= 10
-    }
-    return ans.reversed().toString().trim()
-}
+fun russian(n: Int): String = TODO()
 
+fun main(args: Array<String>) {
+    print('0'.toInt())
+}
 
